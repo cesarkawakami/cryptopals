@@ -69,7 +69,7 @@ struct EvtAnalyzer {
             ++total;
             ++freq_dist[i];
         });
-        utils::assume(total > 0, "empty distribution");
+        utils::expect(total > 0, "empty distribution");
         for (double &x : freq_dist) {
             x /= total;
         }

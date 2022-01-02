@@ -7,7 +7,7 @@ namespace pals::utils {
     abort();
 }
 
-void assume(bool condition, const std::string &msg) {
+void expect(bool condition, const std::string &msg) {
     if (!condition) {
         fatal(msg);
     }

@@ -66,7 +66,7 @@ ByteStr ByteStr::from_hex(const std::string &input_hex) {
     std::copy_if(input_hex.begin(), input_hex.end(), std::back_inserter(hex), [](char c) {
         return ('0' <= c && c <= '9') || ('a' <= std::tolower(c) && std::tolower(c) <= 'f');
     });
-    utils::assume(hex.size() % 2 == 0, "hex string must have even length");
+    utils::expect(hex.size() % 2 == 0, "hex string must have even length");
     ByteStr rv;
     for (auto it = hex.begin(); it < hex.end(); it += 2) {
         int a = from_hex(*it), b = from_hex(*(it + 1));
@@ -95,7 +95,7 @@ ByteStr ByteStr::from_b64(const std::string &input_b64) {
                ('0' <= c && c <= '9') ||
                c == '+' || c == '/' || c == '=';
     });
-    utils::assume(b64.size() % 4 == 0, "base64 string must have length multiple of 4");
+    utils::expect(b64.size() % 4 == 0, "base64 string must have length multiple of 4");
     ByteStr rv;
     for (auto i = std::size(b64) * 0; i < std::size(b64); i += 4) {
         int x = 0;
@@ -132,7 +132,7 @@ std::string ByteStr::to_b64() const {
 }
 
 ByteStr &ByteStr::operator^=(const ByteStr &other) {
-    utils::assume(data.size() == other.data.size(), "lengths mismatch");
+    utils::expect(data.size() == other.data.size(), "lengths mismatch");
     for (auto i = data.size() * 0; i < data.size(); ++i) {
         data[i] ^= other.data[i];
     }

@@ -10,7 +10,7 @@ namespace pals::utils {
 
 [[noreturn]] void fatal(const std::string &s);
 
-void assume(bool condition, const std::string &msg);
+void expect(bool condition, const std::string &msg);
 
 std::string read_file(const std::string &path);
 
