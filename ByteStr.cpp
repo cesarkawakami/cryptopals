@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <iomanip>
 #include <sstream>
+#include <vector>
 
 namespace pals::bytestr {
 
@@ -59,6 +60,28 @@ char to_b64(int c) {
         return '/';
     }
     utils::fatal("to_b64: invalid b64 digit");
+}
+
+ByteStr::ByteStr() : data{} {}
+ByteStr::ByteStr(const ByteStr &other) : data{other.data} {}
+ByteStr::ByteStr(ByteStr &&other) : data{std::move(other.data)} {}
+ByteStr::ByteStr(const std::vector<uint8_t> &data) : data{data} {}
+ByteStr::ByteStr(std::vector<uint8_t> &&data) : data{std::move(data)} {}
+ByteStr &ByteStr::operator=(const ByteStr &other) {
+    data = other.data;
+    return *this;
+}
+ByteStr &ByteStr::operator=(ByteStr &&other) {
+    data = std::move(other.data);
+    return *this;
+}
+ByteStr &ByteStr::operator=(const std::vector<uint8_t> &other) {
+    data = other;
+    return *this;
+}
+ByteStr &ByteStr::operator=(std::vector<uint8_t> &&other) {
+    data = std::move(other);
+    return *this;
 }
 
 ByteStr ByteStr::from_hex(const std::string &input_hex) {

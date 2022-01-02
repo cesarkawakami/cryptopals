@@ -6,10 +6,10 @@
             "type": "lldb",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
-            "args": [
-                "--gtest_filter=ChallengeSet2.*"
-            ],
-            // "args": [""],
+            // "args": [
+            //     "--gtest_filter=ChallengeSet2.*"
+            // ],
+            "args": [""],
             "stopAtEntry": false,
             "cwd": "${command:cmake.getLaunchTargetDirectory}",
             "env": {

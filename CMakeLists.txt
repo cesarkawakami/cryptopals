@@ -39,6 +39,7 @@ add_executable(
   ByteStr.cpp
   scoring.cpp
   attacks_xor.cpp
+  attacks_aes_block.cpp
   prim.cpp)
 target_link_libraries(all_tests gtest_main range-v3 cryptopp-static)
 include(GoogleTest)

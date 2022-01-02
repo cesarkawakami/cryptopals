@@ -147,7 +147,7 @@ TEST(ChallengeSet1, Ex6_BreakRepeatingKeyXOR) {
 TEST(ChallengeSet1, Ex7_AesInEcbMode) {
     const auto cipher_text = ByteStr::from_b64(utils::read_file("challenge-data/7.txt"));
     const auto key = ByteStr::from_string_raw("YELLOW SUBMARINE");
-    const auto actual = prim::aes_ecb_dec(cipher_text, key);
+    const auto actual = prim::pkcs7_unpad(prim::aes_ecb_dec(cipher_text, key));
     const auto expected = utils::read_file("challenge-data/6.output.txt");
     EXPECT_EQ(actual.to_string_raw(), expected);
 }

@@ -17,6 +17,18 @@ struct ByteStr {
 
     std::vector<uint8_t> data;
 
+    ByteStr();
+    ByteStr(const ByteStr &other);
+    ByteStr(ByteStr &&other);
+    ByteStr(const std::vector<uint8_t> &data);
+    ByteStr(std::vector<uint8_t> &&data);
+    ByteStr(auto begin, auto end) : data(begin, end) {}
+
+    ByteStr &operator=(const ByteStr &other);
+    ByteStr &operator=(ByteStr &&other);
+    ByteStr &operator=(const std::vector<uint8_t> &other);
+    ByteStr &operator=(std::vector<uint8_t> &&other);
+
     static ByteStr from_hex(const std::string &hex);
     static ByteStr from_b64(const std::string &b64);
     static ByteStr from_string_raw(const std::string &s);
@@ -24,6 +36,8 @@ struct ByteStr {
 
     std::string to_hex() const;
     std::string to_b64() const;
+
+    auto operator<=>(const ByteStr &) const = default;
 
     ByteStr &operator^=(const ByteStr &);
     ByteStr operator^(const ByteStr &) const;
