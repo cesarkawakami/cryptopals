@@ -1,8 +1,13 @@
 #include "ByteStr.h"
 #include "attacks_xor.h"
+#include "prim.h"
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/range/conversion.hpp"
+#include "range/v3/view/chunk.hpp"
+#include "range/v3/view/istream.hpp"
+#include "range/v3/view/transform.hpp"
 #include "scoring.h"
 #include "utils.h"
-#include "prim.h"
 #include <algorithm>
 #include <cstdlib>
 #include <filesystem>
@@ -10,8 +15,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <numeric>
-#include <sstream>
 #include <rijndael.h>
+#include <sstream>
 
 using pals::bytestr::ByteStr;
 using pals::scoring::AsciiUnigramAnalyzer;
@@ -145,6 +150,35 @@ TEST(ChallengeSet1, Ex7_AesInEcbMode) {
     const auto actual = prim::transform(cypher_text, prim::aes_ecb_dec(key));
     const auto expected = utils::read_file("challenge-data/6.output.txt");
     EXPECT_EQ(actual.to_string_raw(), expected);
+}
+
+TEST(ChallengeSet1, Ex8_DetectAesInEcbMode) {
+    std::ifstream fin{"challenge-data/8.txt"};
+    const std::vector<ByteStr> cypher_texts =
+        ranges::istream<std::string>(fin) |
+        R::transform([](const std::string &s) { return ByteStr::from_string_raw(s); }) |
+        ranges::to<std::vector>();
+
+    auto has_repetition = [](const ByteStr &bs) {
+        std::set<std::vector<uint8_t>> seen;
+        for (const auto &r : bs | R::chunk(16)) {
+            const auto v = r | ranges::to<std::vector>();
+            if (seen.contains(v)) {
+                return true;
+            }
+            seen.insert(v);
+        }
+        return false;
+    };
+
+    auto candidates = cypher_texts | R::filter(has_repetition) | ranges::to<std::vector>();
+    utils::expect(candidates.size() == 1, "oh no");
+    const std::string expected =
+        "d880619740a8a19b7840a8a31c810a3d08649af70dc06f4fd5d2d69c744cd283e2dd052f6b641dbf9d11b0348"
+        "542bb5708649af70dc06f4fd5d2d69c744cd2839475c9dfdbc1d46597949d9c7e82bf5a08649af70dc06f4fd5"
+        "d2d69c744cd28397a93eab8d6aecd566489154789a6b0308649af70dc06f4fd5d2d69c744cd283d403180c98c"
+        "8f6db1f2a3f9c4040deb0ab51b29933f2c123c58386b06fba186a";
+    EXPECT_EQ(candidates[0].to_string_esc(), expected);
 }
 
 } // namespace pals::set1_tests

@@ -48,4 +48,6 @@ configure_file(challenge-data/6.output.txt
                "${CMAKE_BINARY_DIR}/challenge-data/6.output.txt" COPYONLY)
 configure_file(challenge-data/7.txt "${CMAKE_BINARY_DIR}/challenge-data/7.txt"
                COPYONLY)
+configure_file(challenge-data/8.txt "${CMAKE_BINARY_DIR}/challenge-data/8.txt"
+               COPYONLY)
 configure_file(eng_web_2012_300K-sentences.txt "${CMAKE_BINARY_DIR}" COPYONLY)
