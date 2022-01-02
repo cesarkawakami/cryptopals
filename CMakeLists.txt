@@ -31,11 +31,18 @@ add_subdirectory(extern/cryptopp)
 include_directories(${CMAKE_SOURCE_DIR})
 
 enable_testing()
-add_executable(set1_tests set1_tests.cpp utils.cpp ByteStr.cpp scoring.cpp
-                          attacks_xor.cpp prim.cpp)
-target_link_libraries(set1_tests gtest_main range-v3 cryptopp-static)
+add_executable(
+  all_tests
+  set1_tests.cpp
+  set2_tests.cpp
+  utils.cpp
+  ByteStr.cpp
+  scoring.cpp
+  attacks_xor.cpp
+  prim.cpp)
+target_link_libraries(all_tests gtest_main range-v3 cryptopp-static)
 include(GoogleTest)
-gtest_discover_tests(set1_tests)
+gtest_discover_tests(all_tests)
 
 add_executable(scratch scratch.cpp)
 target_link_libraries(scratch range-v3 cryptopp-static)

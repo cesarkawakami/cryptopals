@@ -19,4 +19,7 @@ bytestr::ByteStr transform(const bytestr::ByteStr &input, auto tf) {
     return rv;
 }
 
+bytestr::ByteStr &pkcs7_i(bytestr::ByteStr &bs);
+bytestr::ByteStr pkcs7(const bytestr::ByteStr &bs, int block_size);
+
 } // namespace pals::prim
