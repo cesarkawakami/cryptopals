@@ -20,4 +20,4 @@ std::string read_file(const std::string &path) {
     return ss.str();
 }
 
-} // namespace pals
+} // namespace pals::utils

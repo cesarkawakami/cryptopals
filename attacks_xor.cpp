@@ -32,5 +32,4 @@ std::tuple<uint8_t, double> solve_xor1_simple(const ByteStr &bs) {
     return {static_cast<uint8_t>(best_key), best_score};
 }
 
-
 } // namespace pals::attacks_xor

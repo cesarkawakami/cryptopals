@@ -2,6 +2,7 @@
 #include "attacks_xor.h"
 #include "scoring.h"
 #include <algorithm>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <gtest/gtest.h>
