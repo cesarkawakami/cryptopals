@@ -205,6 +205,10 @@ const uint8_t &ByteStr::operator[](std::ptrdiff_t i) const {
     return data[i];
 }
 std::size_t ByteStr::size() const { return data.size(); }
+void ByteStr::push_back(const uint8_t &value) {
+    data.push_back(value);
+}
+
 std::vector<uint8_t>::iterator ByteStr::begin() {
     return data.begin();
 }

@@ -145,16 +145,16 @@ TEST(ChallengeSet1, Ex6_BreakRepeatingKeyXOR) {
 }
 
 TEST(ChallengeSet1, Ex7_AesInEcbMode) {
-    const auto cypher_text = ByteStr::from_b64(utils::read_file("challenge-data/7.txt"));
+    const auto cipher_text = ByteStr::from_b64(utils::read_file("challenge-data/7.txt"));
     const auto key = ByteStr::from_string_raw("YELLOW SUBMARINE");
-    const auto actual = prim::transform(cypher_text, prim::aes_ecb_dec(key));
+    const auto actual = prim::aes_ecb_dec(cipher_text, key);
     const auto expected = utils::read_file("challenge-data/6.output.txt");
     EXPECT_EQ(actual.to_string_raw(), expected);
 }
 
 TEST(ChallengeSet1, Ex8_DetectAesInEcbMode) {
     std::ifstream fin{"challenge-data/8.txt"};
-    const std::vector<ByteStr> cypher_texts =
+    const std::vector<ByteStr> cipher_texts =
         ranges::istream<std::string>(fin) |
         R::transform([](const std::string &s) { return ByteStr::from_string_raw(s); }) |
         ranges::to<std::vector>();
@@ -171,7 +171,7 @@ TEST(ChallengeSet1, Ex8_DetectAesInEcbMode) {
         return false;
     };
 
-    auto candidates = cypher_texts | R::filter(has_repetition) | ranges::to<std::vector>();
+    auto candidates = cipher_texts | R::filter(has_repetition) | ranges::to<std::vector>();
     utils::expect(candidates.size() == 1, "oh no");
     const std::string expected =
         "d880619740a8a19b7840a8a31c810a3d08649af70dc06f4fd5d2d69c744cd283e2dd052f6b641dbf9d11b0348"

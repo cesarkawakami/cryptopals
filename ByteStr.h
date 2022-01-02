@@ -1,8 +1,8 @@
 #pragma once
 #include "config_int.h"
 #include "utils.h"
-#include <vector>
 #include <config.h>
+#include <vector>
 
 namespace pals::bytestr {
 
@@ -13,6 +13,8 @@ int from_b64(char c);
 char to_b64(int c);
 
 struct ByteStr {
+    using value_type = uint8_t;
+
     std::vector<uint8_t> data;
 
     static ByteStr from_hex(const std::string &hex);
@@ -35,6 +37,7 @@ struct ByteStr {
     uint8_t &operator[](std::ptrdiff_t i);
     const uint8_t &operator[](std::ptrdiff_t i) const;
     std::size_t size() const;
+    void push_back(const uint8_t &value);
 
     std::vector<uint8_t>::iterator begin();
     std::vector<uint8_t>::const_iterator begin() const;

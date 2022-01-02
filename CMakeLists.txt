@@ -47,14 +47,15 @@ gtest_discover_tests(all_tests)
 add_executable(scratch scratch.cpp)
 target_link_libraries(scratch range-v3 cryptopp-static)
 
-configure_file(challenge-data/4.txt "${CMAKE_BINARY_DIR}/challenge-data/4.txt"
-               COPYONLY)
-configure_file(challenge-data/6.txt "${CMAKE_BINARY_DIR}/challenge-data/6.txt"
-               COPYONLY)
-configure_file(challenge-data/6.output.txt
-               "${CMAKE_BINARY_DIR}/challenge-data/6.output.txt" COPYONLY)
-configure_file(challenge-data/7.txt "${CMAKE_BINARY_DIR}/challenge-data/7.txt"
-               COPYONLY)
-configure_file(challenge-data/8.txt "${CMAKE_BINARY_DIR}/challenge-data/8.txt"
-               COPYONLY)
-configure_file(eng_web_2012_300K-sentences.txt "${CMAKE_BINARY_DIR}" COPYONLY)
+set(data_files
+    challenge-data/4.txt
+    challenge-data/6.txt
+    challenge-data/6.output.txt
+    challenge-data/7.txt
+    challenge-data/8.txt
+    challenge-data/10.txt
+    eng_web_2012_300K-sentences.txt)
+
+foreach(data_file IN LISTS data_files)
+    configure_file("${data_file}" "${CMAKE_BINARY_DIR}/${data_file}" COPYONLY)
+endforeach()
