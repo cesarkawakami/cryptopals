@@ -1,0 +1,3 @@
+[submodule "extern/cryptopp"]
+	path = extern/cryptopp
+	url = git@github.com:cesarkawakami-misc/cryptopp.git
