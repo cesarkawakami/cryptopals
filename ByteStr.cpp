@@ -1,4 +1,5 @@
 #include "ByteStr.h"
+#include "config_int.h"
 #include "utils.h"
 #include <cctype>
 #include <gtest/gtest.h>
@@ -191,6 +192,10 @@ std::string ByteStr::to_string_raw() const {
         rv.push_back(static_cast<char>(ch));
     }
     return rv;
+}
+
+const CryptoPP::byte *ByteStr::as_bytearr() const {
+    return reinterpret_cast<const CryptoPP::byte *>(data.data());
 }
 
 uint8_t &ByteStr::operator[](std::ptrdiff_t i) {

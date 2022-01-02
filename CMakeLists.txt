@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 project(main VERSION 0.1.0)
 
+# Compiler configuration
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
-
 add_compile_options("$<$<CONFIG:DEBUG>:-fsanitize=address,undefined>" "-Wall"
                     "-Wextra")
 add_link_options("$<$<CONFIG:DEBUG>:-fsanitize=address,undefined>")
 
+# Third-party libraries
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -24,14 +25,20 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(range-v3)
 
+add_subdirectory(extern/cryptopp)
+
+# Project configuration
 include_directories(${CMAKE_SOURCE_DIR})
 
 enable_testing()
 add_executable(set1_tests set1_tests.cpp utils.cpp ByteStr.cpp scoring.cpp
-                          attacks_xor.cpp)
-target_link_libraries(set1_tests gtest_main range-v3)
+                          attacks_xor.cpp prim.cpp)
+target_link_libraries(set1_tests gtest_main range-v3 cryptopp-static)
 include(GoogleTest)
 gtest_discover_tests(set1_tests)
+
+add_executable(scratch scratch.cpp)
+target_link_libraries(scratch range-v3 cryptopp-static)
 
 configure_file(challenge-data/4.txt "${CMAKE_BINARY_DIR}/challenge-data/4.txt"
                COPYONLY)
@@ -39,7 +46,6 @@ configure_file(challenge-data/6.txt "${CMAKE_BINARY_DIR}/challenge-data/6.txt"
                COPYONLY)
 configure_file(challenge-data/6.output.txt
                "${CMAKE_BINARY_DIR}/challenge-data/6.output.txt" COPYONLY)
+configure_file(challenge-data/7.txt "${CMAKE_BINARY_DIR}/challenge-data/7.txt"
+               COPYONLY)
 configure_file(eng_web_2012_300K-sentences.txt "${CMAKE_BINARY_DIR}" COPYONLY)
-
-add_executable(scratch scratch.cpp)
-target_link_libraries(scratch range-v3)

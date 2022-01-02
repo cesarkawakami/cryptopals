@@ -15,6 +15,9 @@ void expect(bool condition, const std::string &msg) {
 
 std::string read_file(const std::string &path) {
     std::ifstream fin{path};
+    if (fin.fail()) {
+        fatal("could not find file");
+    }
     std::ostringstream ss;
     ss << fin.rdbuf();
     return ss.str();

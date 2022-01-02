@@ -1,6 +1,8 @@
 #include "ByteStr.h"
 #include "attacks_xor.h"
 #include "scoring.h"
+#include "utils.h"
+#include "prim.h"
 #include <algorithm>
 #include <cstdlib>
 #include <filesystem>
@@ -9,6 +11,7 @@
 #include <iostream>
 #include <numeric>
 #include <sstream>
+#include <rijndael.h>
 
 using pals::bytestr::ByteStr;
 using pals::scoring::AsciiUnigramAnalyzer;
@@ -134,6 +137,14 @@ TEST(ChallengeSet1, Ex6_BreakRepeatingKeyXOR) {
 
     const std::string actual{clear_text.to_string_raw()};
     EXPECT_EQ(actual, expected);
+}
+
+TEST(ChallengeSet1, Ex7_AesInEcbMode) {
+    const auto cypher_text = ByteStr::from_b64(utils::read_file("challenge-data/7.txt"));
+    const auto key = ByteStr::from_string_raw("YELLOW SUBMARINE");
+    const auto actual = prim::transform(cypher_text, prim::aes_ecb_dec(key));
+    const auto expected = utils::read_file("challenge-data/6.output.txt");
+    EXPECT_EQ(actual.to_string_raw(), expected);
 }
 
 } // namespace pals::set1_tests

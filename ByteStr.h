@@ -1,6 +1,8 @@
 #pragma once
+#include "config_int.h"
 #include "utils.h"
 #include <vector>
+#include <config.h>
 
 namespace pals::bytestr {
 
@@ -28,6 +30,7 @@ struct ByteStr {
 
     std::string to_string_esc() const;
     std::string to_string_raw() const;
+    const CryptoPP::byte *as_bytearr() const;
 
     uint8_t &operator[](std::ptrdiff_t i);
     const uint8_t &operator[](std::ptrdiff_t i) const;
